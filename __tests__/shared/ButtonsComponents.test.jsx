@@ -26,6 +26,45 @@ describe('Prueba Componente de Botones', () => {
     const label = "Click me";
     expect(() => render(<PrimaryButton label={label} />)).not.toThrow();
   });
-})
+
+  it('should render a pressable component with a label', () => {
+    const onPress = jest.fn();
+    const label = "Click me";
+    render(<SecondaryButton onPress={onPress} label={label} />);
+
+    const pressableComponent = screen.getByRole('button');
+    const labelText = screen.getByText(label);
+
+    expect(pressableComponent).toBeInTheDocument();
+    expect(labelText).toBeInTheDocument();
+  });
+
+  it('should render a disabled state when disabled prop is true', () => {
+    const onPress = jest.fn();
+    const label = "Click me";
+    render(<PrimaryButton onPress={onPress} label={label} disabled={true} />);
+
+    const pressableComponent = screen.getByRole('button');
+    const labelText = screen.getByText(label);
+
+    expect(pressableComponent).toBeInTheDocument();
+    expect(labelText).toBeInTheDocument();
+    expect(pressableComponent).toBeDisabled();
+  });
+
+  it('should not render the label text when label prop is an empty string', () => {
+    const onPress = jest.fn();
+    const label = "";
+    render(<PrimaryButton onPress={onPress} label={label} />);
+
+    const pressableComponent = screen.getByRole('button');
+
+    expect(pressableComponent).toBeInTheDocument();
+    expect(screen.queryByText(label)).toBeNull();
+  });
+
+});
+
+
 
 
